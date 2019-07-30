@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Movie Catalogue</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="tab_movie">Movies</string>
+    <string name="tab_tv">TV Shows</string>
+    <string name="title_dummy" translatable="false">Si Doel The Movie</string>
+    <string name="release_dummy" translatable="false">16 Januari 2019</string>
+    <string name="genre_dummy" translatable="false">DRAMA | ROMANCE</string>
+    <string name="rate_dummy" translatable="false">rate dummy</string>
+    <string name="desc_dummy">Lorem Ipsum Silir Dor Amet</string>
+    <string name="desc_image_poster">Image Poster Show</string>
+    <string name="title_tv">TV Shows</string>
+    <string name="title_movie">Movies</string>
+    <string name="api_communication_error">Error getting data to API. Please, try agin later!</string>
+    <string name="img_dsc_bg_movie">Image Background</string>
+    <string name="dsc_img_show_category">Icon Show Category</string>
+    <string name="desc_image_cover">Image Cover Show</string>
+    <string name="menu_english">English</string>
+    <string name="menu_bahasa">Bahasa</string>
+</resources>

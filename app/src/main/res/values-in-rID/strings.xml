@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Movie Catalogue</string>
+    <string name="api_communication_error">Ada kesalahan saat mengambil data ke server, mohon ulangi lagi beberapa saat lagi..</string>
+    <string name="desc_dummy">Lorem Ipsum Silir Dor Amet</string>
+    <string name="desc_image_cover">Gambar Poster</string>
+    <string name="desc_image_poster">Gambar Cover</string>
+    <string name="dsc_img_show_category">Ikon Kategori</string>
+    <string name="img_dsc_bg_movie">Gambar Background</string>
+    <string name="tab_movie">Film</string>
+    <string name="tab_tv">Acara TV</string>
+    <string name="title_movie">Film</string>
+    <string name="title_tv">Acara TV</string>
+    <string name="menu_bahasa">Bahasa</string>
+    <string name="menu_english">Bahasa Inggris</string>
+</resources>
