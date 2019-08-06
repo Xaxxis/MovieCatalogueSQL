@@ -20,23 +20,34 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter, Movi
 
     @Override
     public void onFinished(Data data) {
+        if(detailView != null){
+            detailView.hideProgressBar();
+        }
         detailView.setDataToDetailView(data);
-
     }
 
     @Override
     public void onFailure(Throwable throwable) {
-        detailView.onResponseFailure();
+        detailView.onResponseFailure(throwable);
+        if(detailView != null){
+            detailView.hideProgressBar();
+        }
     }
 
     @Override
     public void requestDataMovieDetail(int dataId, Context mContext) {
+        if(detailView != null){
+            detailView.showProgressBar();
+        }
         Locale locale = mContext.getResources().getConfiguration().locale;
         detailModel.getMovieDetail(this, dataId, locale.toLanguageTag());
     }
 
     @Override
     public void requestDataTvDetail(int dataId, Context mContext) {
+        if(detailView != null){
+            detailView.showProgressBar();
+        }
         Locale locale = mContext.getResources().getConfiguration().locale;
         detailModel.getTvDetail(this, dataId, locale.toLanguageTag());
 

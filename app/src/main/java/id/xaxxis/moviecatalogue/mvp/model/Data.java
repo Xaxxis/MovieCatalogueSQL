@@ -19,7 +19,7 @@ public class Data implements Parcelable {
     @SerializedName("release_date")
     private String releaseDate;
 
-    @SerializedName("last_air_date")
+    @SerializedName("first_air_date")
     private String lastAirDate;
 
     private float popularity;
@@ -161,7 +161,6 @@ public class Data implements Parcelable {
         dest.writeString(this.backdropPath);
         dest.writeString(this.posterPath);
         dest.writeFloat(this.voteAverage);
-        dest.writeList(this.genres);
     }
 
     public Data() {

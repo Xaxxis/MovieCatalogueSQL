@@ -46,7 +46,6 @@ public class MovieListPresenter implements MovieListContract.Presenter, MovieLis
     @Override
     public void onFinished(List<Data> dataList) {
         Log.d(TAG, "Data size : " + dataList.size());
-            Log.d(TAG, "Proses req data to server selesai");
             movieListView.hideProgressBar();
         movieListView.setDataToAdapter(dataList);
     }

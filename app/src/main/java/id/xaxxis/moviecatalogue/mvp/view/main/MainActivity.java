@@ -1,14 +1,13 @@
 package id.xaxxis.moviecatalogue.mvp.view.main;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,9 +24,9 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabLayout tabs;
     private SectionPagerAdapter sectionPagerAdapter;
-    private static Context mContext;
+    private Context mContext;
 
-    public static Context getContext() {
+    public Context getContext() {
         return mContext;
     }
 
@@ -40,12 +39,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        loadLocale();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         prepareActionBar();
         bindView();
         showFragment();
-
     }
 
     private void bindView(){
@@ -77,11 +76,13 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.lang_english :
-                changeLocale("en");
+                changeLang("en");
+                reloadContent();
                 break;
 
             case R.id.lang_bahasa :
-                changeLocale("in");
+                changeLang("in");
+                reloadContent();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -94,17 +95,40 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void changeLocale(String locale){
-        Locale local = new Locale(locale);
-        Resources resources = getResources();
-        Configuration configuration = resources.getConfiguration();
-        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
-        configuration.locale = local;
-        resources.updateConfiguration(configuration, displayMetrics);
-
-        Intent reIntent = new Intent(this, MainActivity.class);
-        startActivity(reIntent);
+    private void reloadContent(){
+        Intent reload = new Intent(this, MainActivity.class);
+        startActivity(reload);
         finish();
+    }
+
+
+    public void loadLocale() {
+        String langPref = "Language";
+        SharedPreferences prefs = getSharedPreferences("Pref",
+                Activity.MODE_PRIVATE);
+        String language = prefs.getString(langPref, "");
+        changeLang(language);
+    }
+
+    public void changeLang(String lang) {
+        if (lang.equalsIgnoreCase(""))
+            return;
+        Locale myLocale = new Locale(lang);
+        saveLocale(lang);
+        Locale.setDefault(myLocale);
+        android.content.res.Configuration config = new android.content.res.Configuration();
+        config.locale = myLocale;
+        getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
+
+    }
+
+    public void saveLocale(String lang) {
+        String langPref = "Language";
+        SharedPreferences prefs = getSharedPreferences("Pref",
+                Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(langPref, lang);
+        editor.apply();
     }
 
 }

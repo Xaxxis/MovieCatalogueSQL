@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/img_mc_logo" />
+                android:src="@drawable/img_logo_black" />
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
@@ -43,9 +43,9 @@
             android:background="?attr/colorAccent"
             app:layout_constraintTop_toTopOf="parent"
             app:tabGravity="fill"
-            app:tabIndicatorColor="@color/colorPrimary"
+            app:tabIndicatorColor="@android:color/black"
             app:tabMode="fixed"
-            app:tabSelectedTextColor="@android:color/white" />
+            app:tabSelectedTextColor="@android:color/black" />
     </android.support.constraint.ConstraintLayout>
 
     <android.support.v4.view.ViewPager

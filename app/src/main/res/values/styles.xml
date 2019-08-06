@@ -52,7 +52,7 @@
     </style>
 
     <style name="BackGroundImageView">
-        <!--<item name="android:foreground">@drawable/fade_background</item>-->
+        <item name="android:foreground">@drawable/layout_bg_overlay</item>
         <item name="android:scaleType">centerCrop</item>
         <item name="android:adjustViewBounds">true</item>
         <item name="android:layout_alignParentTop">true</item>

@@ -19,7 +19,7 @@ public interface MovieDetailContract {
         void showProgressBar();
         void hideProgressBar();
         void setDataToDetailView(Data data);
-        void onResponseFailure();
+        void onResponseFailure(Throwable throwable);
 
     }
 
