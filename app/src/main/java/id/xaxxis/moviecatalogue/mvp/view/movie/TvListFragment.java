@@ -22,6 +22,8 @@ import id.xaxxis.moviecatalogue.contract.MovieListContract;
 import id.xaxxis.moviecatalogue.mvp.model.Data;
 import id.xaxxis.moviecatalogue.mvp.presenter.MovieListPresenter;
 
+import static id.xaxxis.moviecatalogue.utils.constant.KEY_DATA;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -34,6 +36,14 @@ public class TvListFragment extends Fragment implements MovieListContract.view {
     private ArrayList<Data> dataTvList = new ArrayList<>();
     private MovieAdapter movieAdapter;
     private RecyclerView mRecycleView;
+
+    public TvListFragment newInstance(ArrayList<Data> tvArrayList){
+        TvListFragment tvListFragment = new TvListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(KEY_DATA, tvArrayList);
+        tvListFragment.setArguments(bundle);
+        return tvListFragment;
+    }
 
 
     public TvListFragment() {
@@ -51,9 +61,14 @@ public class TvListFragment extends Fragment implements MovieListContract.view {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tv_list, container, false);
         bindView(view);
-        if (savedInstanceState != null) {
-            dataTvList = savedInstanceState.getParcelableArrayList("data_key");
-            this.setDataToAdapter(dataTvList);
+        Bundle bundle = getArguments();
+        if (bundle != null ){
+            dataTvList = getArguments().getParcelableArrayList(KEY_DATA);
+            this.setData(dataTvList);
+            this.hideProgressBar();
+        }else if (savedInstanceState != null) {
+            dataTvList = savedInstanceState.getParcelableArrayList(KEY_DATA);
+            this.setData(dataTvList);
             this.hideProgressBar();
         } else {
             presenter = new MovieListPresenter(this);
@@ -64,12 +79,12 @@ public class TvListFragment extends Fragment implements MovieListContract.view {
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putParcelableArrayList("data_key", dataTvList);
+        outState.putParcelableArrayList(KEY_DATA, dataTvList);
         super.onSaveInstanceState(outState);
     }
 
     @Override
-    public void setDataToAdapter(List<Data> dataArrayList) {
+    public void setData(List<Data> dataArrayList) {
         dataTvList.addAll(dataArrayList);
         movieAdapter = new MovieAdapter(getContext(), dataTvList);
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));

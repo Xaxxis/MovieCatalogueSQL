@@ -47,7 +47,7 @@ public class MovieListPresenter implements MovieListContract.Presenter, MovieLis
     public void onFinished(List<Data> dataList) {
         Log.d(TAG, "Data size : " + dataList.size());
             movieListView.hideProgressBar();
-        movieListView.setDataToAdapter(dataList);
+        movieListView.setData(dataList);
     }
 
 

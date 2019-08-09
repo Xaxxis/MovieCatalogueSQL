@@ -1,6 +1,5 @@
 package id.xaxxis.moviecatalogue.adapter;
 
-import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,14 +8,16 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import id.xaxxis.moviecatalogue.mvp.view.favorite.FavoriteFragment;
+
 public class SectionPagerAdapter extends FragmentPagerAdapter {
 
-    private final Context mContext;
+    private final FavoriteFragment mContext;
     private List<Fragment> fragments = new ArrayList<>();
     private List<Integer> titles = new ArrayList<>();
 
 
-    public SectionPagerAdapter(FragmentManager fm, Context mContext) {
+    public SectionPagerAdapter(FragmentManager fm, FavoriteFragment mContext) {
         super(fm);
         this.mContext = mContext;
     }

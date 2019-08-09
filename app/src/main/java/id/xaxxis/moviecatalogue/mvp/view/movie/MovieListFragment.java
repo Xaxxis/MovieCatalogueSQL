@@ -23,6 +23,7 @@ import id.xaxxis.moviecatalogue.contract.MovieListContract;
 import id.xaxxis.moviecatalogue.mvp.model.Data;
 import id.xaxxis.moviecatalogue.mvp.presenter.MovieListPresenter;
 
+import static id.xaxxis.moviecatalogue.utils.constant.KEY_DATA;
 import static id.xaxxis.moviecatalogue.utils.constant.KEY_SAVE_DATA;
 
 /**
@@ -36,6 +37,17 @@ public class MovieListFragment extends Fragment implements MovieListContract.vie
     private MovieListPresenter movieListPresenter;
     private RecyclerView mRecycleView;
     private ProgressBar progressBar;
+
+    public MovieListFragment newInstance(ArrayList<Data> movieList){
+        MovieListFragment movieFragment = new MovieListFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(KEY_DATA, movieList);
+
+        movieFragment.setArguments(bundle);
+
+        return movieFragment;
+    }
 
 
     public MovieListFragment() {
@@ -52,9 +64,14 @@ public class MovieListFragment extends Fragment implements MovieListContract.vie
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movie_list, container, false);
         bindView(view);
-        if(savedInstanceState != null){
+        Bundle bundle = getArguments();
+        if (bundle != null){
+            movieList = getArguments().getParcelableArrayList(KEY_DATA);
+            this.setData(movieList);
+            this.hideProgressBar();
+        } else if (savedInstanceState != null) {
             movieList = savedInstanceState.getParcelableArrayList(KEY_SAVE_DATA);
-            this.setDataToAdapter(movieList);
+            this.setData(movieList);
             this.hideProgressBar();
         } else {
             movieListPresenter = new MovieListPresenter(this);
@@ -76,7 +93,7 @@ public class MovieListFragment extends Fragment implements MovieListContract.vie
     }
 
     @Override
-    public void setDataToAdapter(List<Data> dataArrayList) {
+    public void setData(List<Data> dataArrayList) {
         movieList.addAll(dataArrayList);
         movieAdapter = new MovieAdapter(getContext(), movieList);
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));

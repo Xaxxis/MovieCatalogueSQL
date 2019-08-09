@@ -20,7 +20,7 @@ public interface MovieListContract {
 
     interface view {
 
-        void setDataToAdapter(List<Data> dataArrayList);
+        void setData(List<Data> dataArrayList);
 
         void showProgressBar();
 

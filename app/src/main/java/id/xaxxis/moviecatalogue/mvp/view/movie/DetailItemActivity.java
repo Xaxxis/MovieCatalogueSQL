@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import java.util.List;
 import id.xaxxis.moviecatalogue.R;
 import id.xaxxis.moviecatalogue.api.ApiModule;
 import id.xaxxis.moviecatalogue.contract.MovieDetailContract;
+import id.xaxxis.moviecatalogue.db.FavoriteHelpler;
 import id.xaxxis.moviecatalogue.mvp.model.Data;
 import id.xaxxis.moviecatalogue.mvp.model.DataGenre;
 import id.xaxxis.moviecatalogue.mvp.presenter.MovieDetailPresenter;
@@ -28,15 +30,27 @@ import id.xaxxis.moviecatalogue.mvp.presenter.MovieDetailPresenter;
 import static id.xaxxis.moviecatalogue.utils.constant.KEY_DATA;
 import static id.xaxxis.moviecatalogue.utils.constant.KEY_SAVE_DATA;
 
-public class DetailItemActivity extends AppCompatActivity implements MovieDetailContract.View {
+public class DetailItemActivity extends AppCompatActivity implements MovieDetailContract.View, View.OnClickListener {
 
     private final static String TAG = DetailItemActivity.class.getSimpleName();
 
+    public static final String EXTRA_FAVORITE = "extra_favorite";
+    public static final String EXTRA_POSITION = "extra_position";
+
+    public static final int REQUEST_ADD = 100;
+    public static final int RESULT_ADD = 101;
+    public static final int REQUEST_UPDATE = 200;
+    public static final int RESULT_UPDATE = 201;
+    public static final int RESULT_DELETE = 301;
+
+    private FavoriteHelpler favoriteHelpler;
+
     private ImageView imgBackdrop, imgPoster, imgShowCategory;
     private TextView tvRate, tvTitle, tvReleaseDate, tvDescription, tvGenre;
-    private MovieDetailPresenter movieDetailPresenter;
     private ProgressBar detProgressBar;
+    private Button btnFavorite;
     private Data dataShow = new Data();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +60,23 @@ public class DetailItemActivity extends AppCompatActivity implements MovieDetail
         bindView();
         Data data = getIntent().getParcelableExtra(KEY_DATA);
         reqDataApi(data);
+
+        favoriteHelpler = FavoriteHelpler.getInstance(getApplicationContext());
+        favoriteHelpler.open();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        favoriteHelpler.close();
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.btn_favorite) {
+            favoriteHelpler.insertFavorite(dataShow);
+        }
     }
 
     private void prepareActionBar(){
@@ -70,7 +101,7 @@ public class DetailItemActivity extends AppCompatActivity implements MovieDetail
 
     public void reqDataApi(Data data) {
         if (data != null) {
-            movieDetailPresenter = new MovieDetailPresenter(this);
+            MovieDetailPresenter movieDetailPresenter = new MovieDetailPresenter(this);
             if (data.getTitle() != null) {
                 movieDetailPresenter.requestDataMovieDetail(data.getId(), this);
             } else {
@@ -89,6 +120,8 @@ public class DetailItemActivity extends AppCompatActivity implements MovieDetail
         tvDescription = findViewById(R.id.tv_det_desc);
         detProgressBar = findViewById(R.id.pb_det);
         tvGenre = findViewById(R.id.tv_det_genre);
+        btnFavorite = findViewById(R.id.btn_favorite);
+        btnFavorite.setOnClickListener(this);
     }
 
 
@@ -151,4 +184,6 @@ public class DetailItemActivity extends AppCompatActivity implements MovieDetail
         Log.e(TAG, throwable.getMessage());
         Toast.makeText(this, getResources().getString(R.string.api_communication_error), Toast.LENGTH_LONG).show();
     }
+
+
 }
